@@ -1,0 +1,712 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Vent Lam">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.总览与分类 1.1 文本生成 1.2 图像生成 1.3 音频、视频生成2. 关键技术2.1 LLM -以ChatGPT为例LLM模型使得生成范式，即(M)LM（(Masked) Language Model），逐渐替代分类范式成为主流。从下图中可以看到，近几年(M)LM模型有逐渐统一语言模型范式的趋势. 这里的(M)LM主要指的是自回归式的给定前缀生成下一个单词的大规模模型，通常由解码器（de">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AIGC浪潮">
+<meta property="og:url" content="http://example.com/2023/12/25/The%20Wave%20of%20AIGC/index.html">
+<meta property="og:site_name" content="The way to freedom">
+<meta property="og:description" content="1.总览与分类 1.1 文本生成 1.2 图像生成 1.3 音频、视频生成2. 关键技术2.1 LLM -以ChatGPT为例LLM模型使得生成范式，即(M)LM（(Masked) Language Model），逐渐替代分类范式成为主流。从下图中可以看到，近几年(M)LM模型有逐渐统一语言模型范式的趋势. 这里的(M)LM主要指的是自回归式的给定前缀生成下一个单词的大规模模型，通常由解码器（de">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://s.zhangguiyi.cn/vent/202302131706872.png">
+<meta property="og:image" content="https://s.zhangguiyi.cn/vent/202302211110491.png">
+<meta property="og:image" content="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/97a4c645-30f9-4e37-a9ac-ae5849016f69/Untitled.png">
+<meta property="og:image" content="https://s.zhangguiyi.cn/vent/202302220024745.png">
+<meta property="og:image" content="https://s.zhangguiyi.cn/vent/202302220021505.png">
+<meta property="og:image" content="https://s.zhangguiyi.cn/vent/202302220023028.png">
+<meta property="og:image" content="https://s.zhangguiyi.cn/vent/202302220024812.png">
+<meta property="og:image" content="https://s.zhangguiyi.cn/vent/202302220053512.png">
+<meta property="og:image" content="https://s.zhangguiyi.cn/vent/ChatGPT_Diagram.svg">
+<meta property="og:image" content="http://example.com/%5B%3Chttps:/s.zhangguiyi.cn/vent/202302211019244.png%3E%5D(%3Chttps:/s.zhangguiyi.cn/vent/202302211019244.png%3E)">
+<meta property="article:published_time" content="2023-12-25T14:14:07.760Z">
+<meta property="article:modified_time" content="2023-12-25T14:14:07.761Z">
+<meta property="article:author" content="Vent Lam">
+<meta property="article:tag" content="AIGC">
+<meta property="article:tag" content="OpenAI">
+<meta property="article:tag" content="AGI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s.zhangguiyi.cn/vent/202302131706872.png">
+  
+  
+  
+  <title>AIGC浪潮 - The way to freedom</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="The way to freedom" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>The Way To Freedom</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://s.draftai.cn/vent/beach.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="AIGC浪潮"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-25 22:14" pubdate>
+          December 25, 2023 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">AIGC浪潮</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-总览与分类"><a href="#1-总览与分类" class="headerlink" title="1.总览与分类"></a>1.总览与分类</h1><p><img src="https://s.zhangguiyi.cn/vent/202302131706872.png" srcset="/img/loading.gif" lazyload alt="https://s.zhangguiyi.cn/vent/202302131706872.png"></p>
+<h2 id="1-1-文本生成"><a href="#1-1-文本生成" class="headerlink" title="1.1 文本生成"></a>1.1 文本生成</h2><p><img src="https://s.zhangguiyi.cn/vent/202302211110491.png" srcset="/img/loading.gif" lazyload alt="https://s.zhangguiyi.cn/vent/202302211110491.png"></p>
+<h2 id="1-2-图像生成"><a href="#1-2-图像生成" class="headerlink" title="1.2 图像生成"></a>1.2 图像生成</h2><p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/97a4c645-30f9-4e37-a9ac-ae5849016f69/Untitled.png" srcset="/img/loading.gif" lazyload alt="Untitled"></p>
+<h2 id="1-3-音频、视频生成"><a href="#1-3-音频、视频生成" class="headerlink" title="1.3 音频、视频生成"></a>1.3 音频、视频生成</h2><h1 id="2-关键技术"><a href="#2-关键技术" class="headerlink" title="2. 关键技术"></a>2. 关键技术</h1><h2 id="2-1-LLM-以ChatGPT为例"><a href="#2-1-LLM-以ChatGPT为例" class="headerlink" title="2.1 LLM -以ChatGPT为例"></a>2.1 LLM -以ChatGPT为例</h2><p>LLM模型使得生成范式，即(M)LM（(Masked) Language Model），逐渐替代分类范式成为主流。从下图中可以看到，近几年(M)LM模型有逐渐统一语言模型范式的趋势.</p>
+<p>这里的(M)LM主要指的是自回归式的给定前缀生成下一个单词的大规模模型，通常由解码器（decoder）实现，将MLM（Masked Language Model，掩码语言模型）包含进该概念是因为MLM本质也是预测（生成）单词的模型，只是包含了编码器（encoder）结构</p>
+<p><img src="https://s.zhangguiyi.cn/vent/202302220024745.png" srcset="/img/loading.gif" lazyload alt="https://s.zhangguiyi.cn/vent/202302220024745.png"></p>
+<ul>
+<li><p><strong>In-Context Learning</strong> :</p>
+<p>对于一些LLM没有见过的新任务，只需要设计一些任务的语言描述，并给出几个任务实例，作为模型的输入，即可让模型从给定的情景中学习新任务并给出满意的回答结果。这种训练方式能够有效提升模型小样本学习（few-shot learning）的能力(补充图片)</p>
+<p><img src="https://s.zhangguiyi.cn/vent/202302220021505.png" srcset="/img/loading.gif" lazyload alt="https://s.zhangguiyi.cn/vent/202302220021505.png"></p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://docs.cohere.ai/docs/prompt-engineering">Prompt Engineering</a></p>
+<ul>
+<li><p><strong>Chain-of-Thought，CoT</strong> :</p>
+<p>对于一些逻辑较为复杂的问题，直接向大规模语言模型提问可能会得到不准确的回答，但是如果以提示（prompt）的方式在输入中给出有逻辑的解题步骤（即将复杂问题拆解为多个子问题解决再从中抽取答案）的示例后再提出问题，大模型就能给出正确题解。</p>
+<p>如图所示，直接让模型进行数学题的计算会得到错误的结果，而引入解题过程则可以激发模型的推理能力，从而得到的正确的结果。</p>
+<p><img src="https://s.zhangguiyi.cn/vent/202302220023028.png" srcset="/img/loading.gif" lazyload alt="https://s.zhangguiyi.cn/vent/202302220023028.png"></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/reasoning-machines/pal"></a><a target="_blank" rel="noopener" href="https://github.com/reasoning-machines/pal">https://github.com/reasoning-machines/pal</a></p>
+<p><a target="_blank" rel="noopener" href="https://learnprompting.org/docs/advanced_applications/mrkl">🟡 LLMs Using Tools | Learn Prompting</a></p>
+<p>有时，甚至不用给示例，在输入后面接一句“Let’s think step by step”，模型的输出就是一步一步“思考”后的各个子问题的结果，再将该输出拼到输入后构造第二次输入数据，大模型就能进一步将上一步的输出整合，得出正确的复杂问题的解。</p>
+<p>目前有研究发现，由于数据集中存在的大量代码数据，得益于代码的强逻辑性，通过将问题中的文本内容替换为编程语言能够进一步提升模型的CoT能力（Program-aided Reasoning）。</p>
+<p>由于CoT技术能够激发大规模语言模型对复杂问题的求解能力，该技术也被认为是打破比例定律的关键。</p>
+<p><img src="https://s.zhangguiyi.cn/vent/202302220024812.png" srcset="/img/loading.gif" lazyload alt="https://s.zhangguiyi.cn/vent/202302220024812.png"></p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://twitter.com/arankomatsuzaki/status/1529278580189908993"></a><a target="_blank" rel="noopener" href="https://twitter.com/arankomatsuzaki/status/1529278580189908993">https://twitter.com/arankomatsuzaki/status/1529278580189908993</a></p>
+<ul>
+<li><strong>Learning from Natural Instructions</strong></li>
+</ul>
+<p>这种训练方式会在输前面添加一个“指令（instruction）”，该指令能够以自然语言的形式描述任务内容，从而使得大模型根据输入来输出任务期望的答案。该方式将下游任务进一步和自然语言形式对齐，能显著提升模型对未知任务的泛化能力。</p>
+<p><img src="https://s.zhangguiyi.cn/vent/202302220053512.png" srcset="/img/loading.gif" lazyload alt="https://s.zhangguiyi.cn/vent/202302220053512.png"></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2104.08773.pdf"></a><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2104.08773.pdf">https://arxiv.org/pdf/2104.08773.pdf</a></p>
+<p><a target="_blank" rel="noopener" href="https://openai.com/blog/chatgpt/">ChatGPT: Optimizing Language Models for Dialogue</a></p>
+<p>第一步：首先从大量的包含人类真实意图的指令集合中采样指令作为输入数据，并聘请专职标注员标注这些指令的输出，这部分相对而言是一个高质量的小数据集。数据收集完成后，使用GPT-3.5在该数据集上进行有监督的微调（supervised fine-tuning）。</p>
+<p>第二步：得到上一步微调好的GPT-3.5之后，再次从指令集合中采样指令作为输入数据，从GPT-3.5得到多个不同的结果，并聘请专职标注员标注这些输出的好坏顺序，例如输出D&gt;输出C&gt;输出A&gt;输出B。由于只需要标注模型不同输出的好坏，这部分标注的成本会降低很多，因此数据规模也会较大。得到这些人工标注的输出顺序之后，可以训练得到一个打分（reward）模型。</p>
+<p>第三步，获得打分模型之后，接着从指令集合中采样一些新的指令作为输入数据，并结合打分模型，使用PPO（强化学习算法）方式来训练得到最终的ChatGPT。</p>
+<p><img src="https://s.zhangguiyi.cn/vent/ChatGPT_Diagram.svg" srcset="/img/loading.gif" lazyload alt="https://s.zhangguiyi.cn/vent/ChatGPT_Diagram.svg"></p>
+<h2 id="2-2-CLIP-Contrastive-Language-Image-Pre-training"><a href="#2-2-CLIP-Contrastive-Language-Image-Pre-training" class="headerlink" title="2.2 CLIP(Contrastive Language-Image Pre-training)"></a>2.2 CLIP(Contrastive Language-Image Pre-training)</h2><p><img src="/%5B%3Chttps:/s.zhangguiyi.cn/vent/202302211019244.png%3E%5D(%3Chttps:/s.zhangguiyi.cn/vent/202302211019244.png%3E)" srcset="/img/loading.gif" lazyload alt="Contrastive Language-Image Pre-training"></p>
+<p><a target="_blank" rel="noopener" href="https://paperswithcode.com/method/clip"></a><a target="_blank" rel="noopener" href="https://paperswithcode.com/method/clip">https://paperswithcode.com/method/clip</a></p>
+<h2 id="2-3-LDM-Latent-Diffusion-Model"><a href="#2-3-LDM-Latent-Diffusion-Model" class="headerlink" title="2.3 LDM(Latent Diffusion Model)"></a>2.3 LDM(Latent Diffusion Model)</h2><h3 id="2-3-1-LoRA"><a href="#2-3-1-LoRA" class="headerlink" title="2.3.1 LoRA"></a>2.3.1 LoRA</h3><h3 id="2-3-2-CriticalNet"><a href="#2-3-2-CriticalNet" class="headerlink" title="2.3.2 CriticalNet"></a>2.3.2 CriticalNet</h3><h1 id="4-场景"><a href="#4-场景" class="headerlink" title="4. 场景"></a>4. 场景</h1><h2 id="4-1-工作提效"><a href="#4-1-工作提效" class="headerlink" title="4.1 工作提效"></a>4.1 工作提效</h2><h3 id="4-1-1-各类写作"><a href="#4-1-1-各类写作" class="headerlink" title="4.1.1 各类写作"></a>4.1.1 各类写作</h3><ul>
+<li>代码</li>
+<li>文档</li>
+<li>文案</li>
+</ul>
+<h3 id="4-1-2-各类绘画"><a href="#4-1-2-各类绘画" class="headerlink" title="4.1.2 各类绘画"></a>4.1.2 各类绘画</h3><h2 id="4-2-个人助手"><a href="#4-2-个人助手" class="headerlink" title="4.2 个人助手"></a>4.2 个人助手</h2><h3 id="4-2-1-辅助决策"><a href="#4-2-1-辅助决策" class="headerlink" title="4.2.1 辅助决策"></a>4.2.1 辅助决策</h3><h3 id="4-2-2-情感诉求"><a href="#4-2-2-情感诉求" class="headerlink" title="4.2.2 情感诉求"></a>4.2.2 情感诉求</h3><h1 id="4-3-The-App"><a href="#4-3-The-App" class="headerlink" title="4.3 The App"></a>4.3 The App</h1><p>取代所有APP，取代大量白领创意性的工作，同时也创造出新的岗位。</p>
+<h1 id="5-应用"><a href="#5-应用" class="headerlink" title="5.应用"></a>5.应用</h1><p>On Google ：Gmail &#x2F;Google Maps</p>
+<p>On Apple : App Store</p>
+<p>On AIGC : Jasper AI &#x2F; StableDiffusionWeb&#x2F;</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI/" class="category-chain-item">AI</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AIGC/" class="print-no-link">#AIGC</a>
+      
+        <a href="/tags/OpenAI/" class="print-no-link">#OpenAI</a>
+      
+        <a href="/tags/AGI/" class="print-no-link">#AGI</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>AIGC浪潮</div>
+      <div>http://example.com/2023/12/25/The Wave of AIGC/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Vent Lam</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>December 25, 2023</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/12/25/Prompt%20Engineering%20:%20Tree%20of%20Thoughts-E07-Week24%202023/" title="Prompt 工程进阶之Tree of Thoughts--风爷推荐-E07-Week24 2023">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Prompt 工程进阶之Tree of Thoughts--风爷推荐-E07-Week24 2023</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/25/Introduction%20to%20Image%20Search%20System%20Using%20Pinecone%20and%20OpenAI:%20A%20Tutorial/" title="基于Pinecone和OpenAI的图像搜索系统入门教程">
+                        <span class="hidden-mobile">基于Pinecone和OpenAI的图像搜索系统入门教程</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
